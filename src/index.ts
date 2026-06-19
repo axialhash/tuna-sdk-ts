@@ -116,17 +116,11 @@ async function handleError(response: Response): Promise<never> {
     data = await response.json() as Record<string, unknown>;
   } catch { /* ignore */ }
 
-  const message = (data.error as string)
-    ?? ((data.detail as Record<string, unknown>)?.error as string)
-    ?? 'Unknown error';
-  const bank = (data.bank as string) ?? '';
-
-  let suggestion = '';
-  if (response.status === 404) {
-    const lower = message.toLowerCase();
-    const idx = lower.indexOf('did you mean');
-    if (idx >= 0) suggestion = message.slice(idx);
-  }
+  // Backend wraps errors in {"detail": {"error": ..., "message": ..., "bank": ..., "suggestion": ...}}
+  const detail = (data.detail && typeof data.detail === 'object') ? data.detail as Record<string, unknown> : data;
+  const message = (detail.message as string) ?? (detail.error as string) ?? 'Unknown error';
+  const bank = (detail.bank as string) ?? '';
+  const suggestion = (detail.suggestion as string) ?? '';
 
   switch (response.status) {
     case 404: throw new BankNotSupportedError(message, bank, suggestion);
@@ -182,7 +176,7 @@ export class Tuna {
     const response = await fetch(`${this.baseUrl}/verify/batch`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...this.headers },
-      body: JSON.stringify({ receipts: items }),
+      body: JSON.stringify({ items }),
       signal: AbortSignal.timeout(this.timeout),
     });
 
