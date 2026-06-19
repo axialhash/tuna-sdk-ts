@@ -6,6 +6,8 @@ TypeScript SDK for [Tuna](https://txna.me) — Ethiopian receipt verification.
 
 ```bash
 npm install tuna-sdk
+# or from GitHub
+npm install github:axialhash/tuna-sdk-ts
 ```
 
 ## Quick Start
@@ -91,6 +93,16 @@ try {
 - **`ParseResult`** — `ocrText`, `qrContent`, `bank`, `ref`, `amount`, `account`, `extras`
 - **`BankInfo`** — `id`, `name`, `type`, `status`, `requires`
 - **`HealthStatus`** — `status`, `banks`
+
+## Configuration
+
+```typescript
+// Custom API endpoint (e.g. self-hosted)
+const tuna = new Tuna({ baseUrl: 'http://localhost:8765' });
+
+// With API key (when auth is enabled)
+const tuna = new Tuna({ apiKey: 'tuna_sk_your_key_here' });
+```
 
 ## License
 
