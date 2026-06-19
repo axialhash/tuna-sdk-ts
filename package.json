@@ -1,0 +1,35 @@
+{
+  "name": "tuna-sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for Tuna — Ethiopian receipt verification",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["ethiopia", "receipt", "verification", "bank", "cbe", "telebirr"],
+  "author": "Ash <ash@txna.me>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/axialhash/tuna-sdk-ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.5",
+    "vitest": "^3.0",
+    "@types/node": "^22"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
